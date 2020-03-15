@@ -1,0 +1,39 @@
+<aura:component 
+	implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >     
+    <!--Attribut declarations-->
+    <aura:attribute name="num1" type="integer" />
+    <aura:attribute name="num2" type="integer" />
+    <aura:attribute name="total" type="integer" />
+    <aura:attribute name="result" type="decimal" />
+    <aura:attribute name="fields" type="String[]" default="['Result__c','timestamp__c']"/>
+    <aura:attribute name="recordId" type="String"/>
+	<aura:attribute name="gcd" type="integer"/>    
+   <!--Input lightning components to capture user data-->
+    <lightning:input type="number" name="input1" label="Enter First Number" value="{!v.num1}" />
+    <lightning:input type="number" label="Enter Second Number" value="{!v.num2}" />
+    <br/>
+    <!--Lightning selection component for switching between operations-->
+    <lightning:select name="select1" label="Choose an operation." onchange="{!c.currentOperation}" aura:id="operationList" required="true">
+        <option value="">choose one...</option>
+        <option value="1">Addition</option>
+        <option value="2">Subtracition</option>
+        <option value="3">Multiplication</option>
+         <option value="4">Division</option>
+    </lightning:select>
+    <br/>
+    <!--Lightning recordform component for save data to custom calculation object and displaying it-->
+    <lightning:recordForm
+                    aura:id="recordEditForm"
+                    objectApiName="Calculation_Result__c"
+                    onsubmit="{!c.handleSubmit}"
+    				onsuccess="{!c.handleSuccess}"/>
+    <lightning:recordForm
+                    objectApiName="Calculation_Result__c"
+					recordId="{!v.recordId}"
+                    layoutType="Compact"
+        			columns="1"
+                    mode="readonly"/>
+    <lightning:input type="number"  label="Random GCD Result:" value="{!v.gcd}"/>
+     
+                          
+</aura:component>
